@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CookBook.Core.Domain;
+using CookBook.Core.Repositories;
+
+namespace CookBook.Infrastructure.Repositories
+{
+    public class InMemoryIngredientCategoryRepository : IIngredientCategoryRepository
+    {
+        private static readonly ISet<IngredientCategory> Categories = new HashSet<IngredientCategory>();
+        public async Task<IEnumerable<IngredientCategory>> GetAllAsync()
+            => await Task.FromResult(Categories);
+
+        public async Task<IngredientCategory> GetAsync(Guid id)
+            => await Task.FromResult(Categories.SingleOrDefault(x => x.Id.Equals(id)));
+
+        public async Task<IngredientCategory> GetAsync(string name)
+            => await Task.FromResult(Categories.SingleOrDefault(x => x.Name.ToLowerInvariant().Equals(name.ToLowerInvariant())));
+
+        public async Task AddAsync(IngredientCategory ingredientCategory)
+            => await Task.FromResult(Categories.Add(ingredientCategory));
+
+        public async Task UpdateAsync(Guid id)
+            => await Task.CompletedTask;
+
+        public async Task Delete(Guid id)
+            => Categories.Remove(await GetAsync(id));
+    }
+
+
+}
