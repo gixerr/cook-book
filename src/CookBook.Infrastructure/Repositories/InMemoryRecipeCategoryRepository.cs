@@ -26,7 +26,7 @@ namespace CookBook.Infrastructure.Repositories
         public async Task UpdateAsync(Guid id)
             => await Task.CompletedTask;
 
-        public async Task Delete(Guid id)
+        public async Task RemoveAsync(Guid id)
             => Categories.Remove(await GetAsync(id));
     }
 }

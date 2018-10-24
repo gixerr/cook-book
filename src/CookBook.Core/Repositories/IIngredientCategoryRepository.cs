@@ -12,6 +12,6 @@ namespace CookBook.Core.Repositories
         Task<IngredientCategory> GetAsync(string name);
         Task AddAsync(IngredientCategory ingredientCategory);
         Task UpdateAsync(Guid id);
-        Task Delete(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

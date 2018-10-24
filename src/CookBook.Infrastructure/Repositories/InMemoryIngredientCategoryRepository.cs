@@ -10,6 +10,7 @@ namespace CookBook.Infrastructure.Repositories
     public class InMemoryIngredientCategoryRepository : IIngredientCategoryRepository
     {
         private static readonly ISet<IngredientCategory> Categories = new HashSet<IngredientCategory>();
+
         public async Task<IEnumerable<IngredientCategory>> GetAllAsync()
             => await Task.FromResult(Categories);
 
@@ -17,7 +18,8 @@ namespace CookBook.Infrastructure.Repositories
             => await Task.FromResult(Categories.SingleOrDefault(x => x.Id.Equals(id)));
 
         public async Task<IngredientCategory> GetAsync(string name)
-            => await Task.FromResult(Categories.SingleOrDefault(x => x.Name.ToLowerInvariant().Equals(name.ToLowerInvariant())));
+            => await Task.FromResult(Categories.SingleOrDefault(x =>
+                x.Name.ToLowerInvariant().Equals(name.ToLowerInvariant())));
 
         public async Task AddAsync(IngredientCategory ingredientCategory)
             => await Task.FromResult(Categories.Add(ingredientCategory));
@@ -25,9 +27,7 @@ namespace CookBook.Infrastructure.Repositories
         public async Task UpdateAsync(Guid id)
             => await Task.CompletedTask;
 
-        public async Task Delete(Guid id)
+        public async Task RemoveAsync(Guid id)
             => Categories.Remove(await GetAsync(id));
     }
-
-
 }
