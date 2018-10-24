@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CookBook.Core.Exceptions;
 
@@ -12,24 +13,16 @@ namespace CookBook.Core.Domain
         public string ShortDescription { get; protected set; }
         public string Preparation { get; protected set; }
 
-        private Recipe(string name, RecipeCategory category, IEnumerable<RecipeIngredient> ingredients, string preparation)
-            : this(name, category, preparation)
-        {
-            SetIngredients(ingredients);
-        }
-
-        private Recipe(string name, RecipeCategory category, string preparation)
+        private Recipe(string name, RecipeCategory category, string shortDescription, string preparation)
         {
             SetName(name);
             SetCategory(category);
+            SetShortDescription(shortDescription);
             SetPreparation(preparation);
         }
 
-        public static Recipe Create(string name, RecipeCategory category, IEnumerable<RecipeIngredient> ingredients, string preparation)
-            => new Recipe(name, category, ingredients, preparation);
-
-        public static Recipe CreateWithoutIngredients(string name, RecipeCategory category, string preparation)
-            => new Recipe(name, category, preparation);
+        public static Recipe Create(string name, RecipeCategory category, string shortDescription, string preparation)
+            => new Recipe(name, category, shortDescription, preparation);
 
         public void SetName(string name)
             => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeName);
@@ -38,7 +31,11 @@ namespace CookBook.Core.Domain
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeCategory);
 
         public void SetIngredients(IEnumerable<RecipeIngredient> ingredients)
-            => _ingredients = (HashSet<RecipeIngredient>) Validate(ingredients, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientList);
+            => _ingredients = (HashSet<RecipeIngredient>) Validate(ingredients, ErrorCode.EmptyModelProperty,
+                ErrorMessage.EmptyIngredientList);
+
+        private void SetShortDescription(string shortDescription)
+            => ShortDescription = Validate(shortDescription, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyShortDescription);
 
         public void SetPreparation(string preparation)
             => Preparation = Validate(preparation, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipePreparation);
