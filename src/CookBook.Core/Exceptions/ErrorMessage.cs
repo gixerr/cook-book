@@ -14,5 +14,6 @@ namespace CookBook.Core.Exceptions
         public static string EmptyRecipeIngredientMeasure => "Recipe ingredient measure can not be empty.";
         public static string InvalidRecipeIngredientAmount => "Recipe ingredient amount must be greater than 0.";
         public static string EmptyIngredientList => "Ingredient list can not be empty.";
+        public static string EmptyShortDescription => "Short description can not be empty";
     }
 }
