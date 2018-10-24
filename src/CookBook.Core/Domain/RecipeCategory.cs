@@ -15,6 +15,9 @@ namespace CookBook.Core.Domain
         {
             SetName(name);
         }
+        
+        public static RecipeCategory Create(string name)
+            => new RecipeCategory(name);
 
         public void SetName(string name)
             => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyCategoryName);

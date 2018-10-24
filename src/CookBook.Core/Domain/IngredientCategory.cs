@@ -16,10 +16,11 @@ namespace CookBook.Core.Domain
             SetName(name);
         }
 
+        public static IngredientCategory Create(string name)
+            => new IngredientCategory(name); 
+        
         private void SetName(string name)
             => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientCategoryName);
 
-        public static IngredientCategory Create(string name)
-            => new IngredientCategory(name); 
     }
 }
