@@ -5,7 +5,7 @@ using CookBook.Core.Domain;
 
 namespace CookBook.Core.Repositories
 {
-    public interface IIngredientCategoryRepository
+    public interface IIngredientCategoryRepository : IRepository
     {
         Task<IEnumerable<IngredientCategory>> GetAllAsync();
         Task<IngredientCategory> GetAsync(Guid id);
