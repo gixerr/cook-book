@@ -1,6 +1,6 @@
 namespace CookBook.Core.Exceptions
 {
-    public class ErrorMessage
+    public static class ErrorMessage
     {
         public static string EmptyRecipeName => "Recipe name can not be empty.";
         public static string EmptyIngredientName => "Ingredient name can not be empty";
