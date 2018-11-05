@@ -24,7 +24,7 @@ namespace CookBook.Infrastructure.Repositories
         public async Task AddAsync(IngredientCategory ingredientCategory)
             => await Task.FromResult(Categories.Add(ingredientCategory));
 
-        public async Task UpdateAsync(Guid id)
+        public async Task UpdateAsync(IngredientCategory ingredientCategory)
             => await Task.CompletedTask;
 
         public async Task RemoveAsync(Guid id)
