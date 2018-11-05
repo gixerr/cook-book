@@ -18,7 +18,8 @@ namespace CookBook.Infrastructure.Repositories
             => await Task.FromResult(Categories.SingleOrDefault(x => x.Id.Equals(id)));
 
         public async Task<RecipeCategory> GetAsync(string name)
-            => await Task.FromResult(Categories.SingleOrDefault(x => x.Name.ToLowerInvariant().Equals(name.ToLowerInvariant())));
+            => await Task.FromResult(Categories.SingleOrDefault(
+                x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)));
 
         public async Task AddAsync(RecipeCategory recipeCategory)
             => await Task.FromResult(Categories.Add(recipeCategory));

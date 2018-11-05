@@ -14,7 +14,7 @@ namespace CookBook.Infrastructure.Repositories
             => await Task.FromResult(Recipes);
             
         public async Task<IEnumerable<Recipe>> GetAsync(string name)
-            => await Task.FromResult(Recipes.Where(x => x.Name.ToLowerInvariant().Equals(name.ToLowerInvariant())));
+            => await Task.FromResult(Recipes.Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)));
 
         public async Task<IEnumerable<Recipe>> GetAsync(RecipeCategory recipeCategory)
             => await Task.FromResult(Recipes.Where(x => x.Category.Equals(recipeCategory)));
