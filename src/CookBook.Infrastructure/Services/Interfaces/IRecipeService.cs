@@ -1,7 +1,8 @@
+using CookBook.Core.Domain;
+using CookBook.Infrastructure.Dto;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CookBook.Infrastructure.Dto;
 
 namespace CookBook.Infrastructure.Services.Interfaces
 {
@@ -9,6 +10,7 @@ namespace CookBook.Infrastructure.Services.Interfaces
     {
         Task<IEnumerable<RecipeDto>> GetAllAsync();
         Task<IEnumerable<RecipeDto>> GetAsync(string name);
+        Task<IEnumerable<RecipeDto>> GetAsync(Recipe recipe);
         Task<RecipeDto> GetAsync(Guid id);
         Task AddAsync(RecipeCreateDto recipeDto);
         Task UpdateAsync(Guid id);
