@@ -34,7 +34,7 @@ namespace CookBook.Core.Domain
             => _ingredients = (HashSet<RecipeIngredient>) Validate(ingredients, ErrorCode.EmptyModelProperty,
                 ErrorMessage.EmptyIngredientList);
 
-        private void SetShortDescription(string shortDescription)
+        public void SetShortDescription(string shortDescription)
             => ShortDescription = Validate(shortDescription, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyShortDescription);
 
         public void SetPreparation(string preparation)
