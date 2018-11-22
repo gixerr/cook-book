@@ -1,5 +1,3 @@
-using System;
-using System.Dynamic;
 using CookBook.Core.Exceptions;
 
 namespace CookBook.Core.Domain
@@ -22,10 +20,10 @@ namespace CookBook.Core.Domain
         public static Ingredient Create(string name, IngredientCategory category)
             => new Ingredient(name, category);
 
-        private void SetCategory(IngredientCategory category)
+        public void SetCategory(IngredientCategory category)
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientCategory);
         
-        private void SetName(string name)
+        public void SetName(string name)
             => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientName);
     }
 }
