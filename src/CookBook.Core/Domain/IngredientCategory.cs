@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CookBook.Core.Exceptions;
 
 namespace CookBook.Core.Domain

@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using CookBook.Core.Exceptions;
+using System.Collections.Generic;
 
 namespace CookBook.Core.Domain
 {
@@ -31,7 +30,7 @@ namespace CookBook.Core.Domain
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeCategory);
 
         public void SetIngredients(IEnumerable<RecipeIngredient> ingredients)
-            => _ingredients = (HashSet<RecipeIngredient>) Validate(ingredients, ErrorCode.EmptyModelProperty,
+            => _ingredients = (HashSet<RecipeIngredient>)Validate(ingredients, ErrorCode.EmptyModelProperty,
                 ErrorMessage.EmptyIngredientList);
 
         public void SetShortDescription(string shortDescription)

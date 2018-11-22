@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using CookBook.Core.Domain;
 using CookBook.Core.Repositories;
 using CookBook.Infrastructure.Dto;
-using CookBook.Infrastructure.Exceptions;
 using CookBook.Infrastructure.Repositories.Extensions;
 using CookBook.Infrastructure.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CookBook.Infrastructure.Services
 {
@@ -52,9 +51,8 @@ namespace CookBook.Infrastructure.Services
 
         private IngredientCategoryDto Dto(IngredientCategory model)
             => _mapper.Map<IngredientCategoryDto>(model);
-        
+
         private IEnumerable<IngredientCategoryDto> Dto(IEnumerable<IngredientCategory> modelCollection)
             => _mapper.Map<IEnumerable<IngredientCategoryDto>>(modelCollection);
-
     }
 }
