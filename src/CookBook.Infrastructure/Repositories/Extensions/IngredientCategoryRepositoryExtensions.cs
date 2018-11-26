@@ -1,10 +1,10 @@
 using CookBook.Core.Domain;
 using CookBook.Core.Repositories;
+using CookBook.Infrastructure.DomainExtensions;
 using CookBook.Infrastructure.Dto;
 using CookBook.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CookBook.Infrastructure.Repositories.Extensions
@@ -60,25 +60,6 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             var category = await repository.GetAsync(categoryId);
             category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(categoryId.ToString()));
             await repository.RemoveAsync(categoryId);
-        }
-
-        internal static void ThrowServiceExceptionIfNotExist(this IngredientCategory category, string errorCode, string errorMessage)
-            => _ = category ?? throw new ServiceException(errorCode, errorMessage);
-
-        internal static void ThrowServiceExceptionIfExist(this IngredientCategory category, string errorCode, string errorMessage)
-        {
-            if (!(category is null))
-            {
-                throw new ServiceException(errorCode, errorMessage);
-            }
-        }
-
-        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<IngredientCategory> categories, string errorCode, string errorMessage)
-        {
-            if (categories?.Any() is false)
-            {
-                throw new ServiceException(errorCode, errorMessage);
-            }
         }
     }
 }
