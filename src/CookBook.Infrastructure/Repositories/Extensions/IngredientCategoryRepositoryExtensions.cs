@@ -62,10 +62,10 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             await repository.RemoveAsync(categoryId);
         }
 
-        private static void ThrowServiceExceptionIfNotExist(this IngredientCategory category, string errorCode, string errorMessage)
+        internal static void ThrowServiceExceptionIfNotExist(this IngredientCategory category, string errorCode, string errorMessage)
             => _ = category ?? throw new ServiceException(errorCode, errorMessage);
 
-        private static void ThrowServiceExceptionIfExist(this IngredientCategory category, string errorCode, string errorMessage)
+        internal static void ThrowServiceExceptionIfExist(this IngredientCategory category, string errorCode, string errorMessage)
         {
             if (!(category is null))
             {
@@ -73,7 +73,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             }
         }
 
-        private static void ThrowServiceExceptionIfNotExist(this IEnumerable<IngredientCategory> categories, string errorCode, string errorMessage)
+        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<IngredientCategory> categories, string errorCode, string errorMessage)
         {
             if (categories?.Any() is false)
             {
