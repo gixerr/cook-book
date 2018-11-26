@@ -1,5 +1,6 @@
 ﻿using CookBook.Core.Domain;
 using CookBook.Core.Repositories;
+using CookBook.Infrastructure.DomainExtensions;
 using CookBook.Infrastructure.Dto;
 using CookBook.Infrastructure.Exceptions;
 using System;
@@ -74,25 +75,6 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             var recipe = await repository.GetOrThrowAsync(id);
             recipe.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
             await repository.RemoveAsync(id);
-        }
-
-        internal static void ThrowServiceExceptionIfNotExist(this Recipe recipes, string errorCode, string errorMessage)
-            => _ = recipes ?? throw new ServiceException(errorCode, errorMessage);
-
-        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<Recipe> recipes, string errorCode, string errorMessage)
-        {
-            if (recipes?.Any() is false)
-            {
-                throw new ServiceException(errorCode, errorMessage);
-            }
-        }
-
-        internal static void ThrowServiceExceptionIfExist(this IEnumerable<Recipe> recipes, string categoryName, string errorCode, string errorMessage)
-        {
-            if (recipes?.Any(x => x.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
-            {
-                throw new ServiceException(errorCode, errorMessage);
-            }
         }
     }
 }
