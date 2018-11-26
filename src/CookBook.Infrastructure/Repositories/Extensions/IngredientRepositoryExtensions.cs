@@ -14,10 +14,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Ingredient>> GetAllOrThrowAsync(this IIngredientRepository repository)
         {
             var ingredients = await repository.GetAllAsync();
-            if (ingredients?.Any() is false)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.NoIngredients);
-            }
+            ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.NoIngredients);
 
             return ingredients;
         }
@@ -25,10 +22,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository, string name)
         {
             var ingredients = await repository.GetAsync(name);
-            if (ingredients?.Any() is false)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(name));
-            }
+            ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(name));
 
             return ingredients;
         }
@@ -36,10 +30,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<Ingredient> GetOrThrowAsync(this IIngredientRepository repository, Guid id)
         {
             var ingredient = await repository.GetAsync(id);
-            if (ingredient is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(id.ToString()));
-            }
+            ingredient.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(id.ToString()));
 
             return ingredient;
         }
@@ -47,10 +38,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository, IngredientCategory ingredientCategory)
         {
             var ingredients = await repository.GetAsync(ingredientCategory);
-            if (ingredients?.Any() is false)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(ingredientCategory.Name));
-            }
+            ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(ingredientCategory.Name));
 
             return ingredients;
         }
@@ -59,15 +47,9 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             IngredientCreateDto ingredientDto)
         {
             var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            if (category is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
-            }
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
-            if (ingredients?.Any(x => x.Category.Name.Equals(ingredientDto.CategoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
-            {
-                throw new ServiceException(ErrorCode.IngredientExists, ErrorMessage.IngredientExists(ingredientDto.Name));
-            }
+            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredient = Ingredient.Create(ingredientDto.Name, category);
             await ingredientRepository.AddAsync(ingredient);
         }
@@ -76,15 +58,9 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             Guid id, IngredientUpdateDto ingredientDto)
         {
             var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            if (category is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
-            }
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
-            if (ingredients?.Any(x => x.Category.Name.Equals(ingredientDto.CategoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
-            {
-                throw new ServiceException(ErrorCode.IngredientExists, ErrorMessage.IngredientExists(ingredientDto.Name));
-            }
+            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredient = await ingredientRepository.GetOrThrowAsync(id);
             ingredient.SetName(ingredientDto.Name);
             ingredient.SetCategory(category);
@@ -94,11 +70,27 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task RemoveOrThrowAsync(this IIngredientRepository repository, Guid id)
         {
             var ingredient = await repository.GetOrThrowAsync(id);
-            if (ingredient is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
-            }
+            ingredient.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
             await repository.RemoveAsync(id);
+        }
+
+        internal static void ThrowServiceExceptionIfNotExist(this Ingredient ingredient, string errorCode, string errorMessage)
+            => _ = ingredient ?? throw new ServiceException(errorCode, errorMessage);
+
+        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<Ingredient> ingredients, string errorCode, string errorMessage)
+        {
+            if (ingredients?.Any() is false)
+            {
+                throw new ServiceException(errorCode, errorMessage);
+            }
+        }
+
+        internal static void ThrowServiceExceptionIfExist(this IEnumerable<Ingredient> ingredients, string categoryName, string errorCode, string errorMessage)
+        {
+            if (ingredients?.Any(x => x.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
+            {
+                throw new ServiceException(errorCode, errorMessage);
+            }
         }
     }
 }
