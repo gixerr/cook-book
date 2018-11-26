@@ -14,10 +14,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Recipe>> GetAllOrThrowAsync(this IRecipeRepository repository)
         {
             var recipes = await repository.GetAllAsync();
-            if (recipes is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.NoRecipes);
-            }
+            recipes.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.NoRecipes);
 
             return recipes;
         }
@@ -25,10 +22,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<Recipe> GetOrThrowAsync(this IRecipeRepository repository, Guid id)
         {
             var recipe = await repository.GetAsync(id);
-            if (recipe is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
-            }
+            recipe.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
 
             return recipe;
         }
@@ -36,10 +30,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Recipe>> GetOrThrowAsync(this IRecipeRepository repository, string name)
         {
             var recipes = await repository.GetAsync(name);
-            if (recipes is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(name));
-            }
+            recipes.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(name));
 
             return recipes;
         }
@@ -47,10 +38,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<IEnumerable<Recipe>> GetOrThrowAsync(this IRecipeRepository repository, RecipeCategory recipeCategory)
         {
             var recipes = await repository.GetAsync(recipeCategory);
-            if (recipes is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(recipeCategory.Name));
-            }
+            recipes.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(recipeCategory.Name));
 
             return recipes;
         }
@@ -58,36 +46,24 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task AddOrThrowAsync(this IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository,
             RecipeCreateDto recipeDto)
         {
-            var recipeCategory = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
-            if (recipeCategory is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
-            }
+            var category = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
             var recipes = await recipeRepository.GetAsync(recipeDto.Name);
-            if (recipes?.Any(x => x.Category.Name.Equals(recipeDto.CategoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
-            {
-                throw new ServiceException(ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
-            }
-            var recipe = Recipe.Create(recipeDto.Name, recipeCategory, recipeDto.ShortDescription, recipeDto.Preparation);
+            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
+            var recipe = Recipe.Create(recipeDto.Name, category, recipeDto.ShortDescription, recipeDto.Preparation);
             await recipeRepository.AddAsync(recipe);
         }
 
         public static async Task UpdateOrThrowAsync(this IRecipeRepository repository, IRecipeCategoryRepository recipeCategoryRepository,
             Guid id, RecipeUpdateDto recipeDto)
         {
-            var recipeCategory = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
-            if (recipeCategory is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
-            }
+            var category = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
             var recipes = await repository.GetAsync(recipeDto.Name);
-            if (recipes?.Any(x => x.Category.Name.Equals(recipeDto.CategoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
-            {
-                throw new ServiceException(ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
-            }
+            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
             var recipe = await repository.GetOrThrowAsync(id);
             recipe.SetName(recipeDto.Name);
-            recipe.SetCategory(recipeCategory);
+            recipe.SetCategory(category);
             recipe.SetShortDescription(recipeDto.ShortDescription);
             recipe.SetPreparation(recipeDto.Preparation);
             await repository.UpdateAsync(id);
@@ -96,11 +72,27 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task RemoveOrThrowAsync(this IRecipeRepository repository, Guid id)
         {
             var recipe = await repository.GetOrThrowAsync(id);
-            if (recipe is null)
-            {
-                throw new ServiceException(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
-            }
+            recipe.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
             await repository.RemoveAsync(id);
+        }
+
+        internal static void ThrowServiceExceptionIfNotExist(this Recipe recipes, string errorCode, string errorMessage)
+            => _ = recipes ?? throw new ServiceException(errorCode, errorMessage);
+
+        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<Recipe> recipes, string errorCode, string errorMessage)
+        {
+            if (recipes?.Any() is false)
+            {
+                throw new ServiceException(errorCode, errorMessage);
+            }
+        }
+
+        internal static void ThrowServiceExceptionIfExist(this IEnumerable<Recipe> recipes, string categoryName, string errorCode, string errorMessage)
+        {
+            if (recipes?.Any(x => x.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
+            {
+                throw new ServiceException(errorCode, errorMessage);
+            }
         }
     }
 }
