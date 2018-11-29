@@ -14,11 +14,13 @@ namespace CookBook.Infrastructure.Services
     {
         private readonly IIngredientCategoryRepository _ingredientCategoryRepository;
         private readonly IMapper _mapper;
+
         public IngredientCategoryService(IIngredientCategoryRepository ingredientCategoryRepository, IMapper mapper)
         {
             _ingredientCategoryRepository = ingredientCategoryRepository;
             _mapper = mapper;
         }
+
         public async Task<IEnumerable<IngredientCategoryDto>> GetAllAsync()
         {
             var categories = await _ingredientCategoryRepository.GetAllOrThrowAsync();

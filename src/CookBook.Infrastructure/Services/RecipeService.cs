@@ -16,7 +16,8 @@ namespace CookBook.Infrastructure.Services
         private readonly IRecipeCategoryRepository _recipeCategoryRepository;
         private readonly IMapper _mapper;
 
-        public RecipeService(IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository, IMapper mapper)
+        public RecipeService(IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository,
+            IMapper mapper)
         {
             _recipeRepository = recipeRepository;
             _recipeCategoryRepository = recipeCategoryRepository;
