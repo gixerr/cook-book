@@ -1,4 +1,3 @@
-using CookBook.Core.Domain;
 using CookBook.Infrastructure.Dto;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace CookBook.Infrastructure.Services.Interfaces
         Task<IEnumerable<RecipeDto>> GetAsync(RecipeCategoryDto recipeCategoryDto);
         Task<RecipeDto> GetAsync(Guid id);
         Task AddAsync(RecipeCreateDto recipeDto);
-        Task UpdateAsync(Guid id);
+        Task UpdateAsync(Guid id, RecipeUpdateDto recipeUpdateDto);
         Task RemoveAsync(Guid id);
     }
 }
