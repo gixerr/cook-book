@@ -10,10 +10,10 @@ namespace CookBook.Infrastructure.Services.Interfaces
     {
         Task<IEnumerable<IngredientDto>> GetAllAsync();
         Task<IEnumerable<IngredientDto>> GetAsync(string name);
-        Task<IEnumerable<IngredientDto>> GetAsync(IngredientCategory ingredientCategory);
+        Task<IEnumerable<IngredientDto>> GetAsync(IngredientCategoryDto ingredientCategoryDto);
         Task<IngredientDto> GetAsync(Guid id);
         Task AddAsync(IngredientCreateDto ingredientDto);
-        Task UpdateAsync(Guid id);
+        Task UpdateAsync(Guid id, IngredientUpdateDto ingredientUpdateDto);
         Task RemoveAsync(Guid id);
     }
 }
