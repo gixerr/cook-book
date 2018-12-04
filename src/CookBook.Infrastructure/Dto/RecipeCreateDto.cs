@@ -1,6 +1,8 @@
+using CookBook.Infrastructure.Commands.Interfaces;
+
 namespace CookBook.Infrastructure.Dto
 {
-    public class RecipeCreateDto
+    public class RecipeCreateDto : ICommand
     {
         public string Name { get; set; }
         public string CategoryName { get; set; }
