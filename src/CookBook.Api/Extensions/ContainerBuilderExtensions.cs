@@ -1,5 +1,6 @@
 using Autofac;
 using CookBook.Infrastructure.CommandHandlers.Interfaces;
+using CookBook.Infrastructure.Mappings;
 using CookBook.Infrastructure.Services.Interfaces;
 
 namespace CookBook.Api.Extensions
@@ -14,6 +15,8 @@ namespace CookBook.Api.Extensions
             builder.RegisterAssemblyTypes(infrastructureAssembly)
                    .AsClosedTypesOf(typeof(ICommandHandler<>))
                    .InstancePerLifetimeScope();
+            builder.RegisterInstance(AutoMapperConfig.GetMapper())
+                   .SingleInstance();
 
             return builder;
         }
