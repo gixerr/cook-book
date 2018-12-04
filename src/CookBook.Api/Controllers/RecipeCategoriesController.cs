@@ -29,7 +29,7 @@ namespace CookBook.Api.Controllers
         [HttpGet("id/{id}")]
         public async Task<ActionResult> Get(Guid id)
         {
-            var category = _categoryService.GetAsync(id);
+            var category = await _categoryService.GetAsync(id);
 
             return Ok(category);
         }
