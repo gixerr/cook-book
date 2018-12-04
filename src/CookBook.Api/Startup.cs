@@ -24,8 +24,7 @@ namespace CookBook.Api
         {
             services.AddFrameworkServices();
             var builder = new ContainerBuilder();
-            builder.RegisterAppTypes()
-                   .Populate(services);
+            builder.RegisterAppTypes().Populate(services);
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);
