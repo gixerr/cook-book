@@ -4,7 +4,7 @@ using CookBook.Infrastructure.Dto;
 
 namespace CookBook.Infrastructure.Mappings
 {
-    public class AutoMapperConfig
+    public static class AutoMapperConfig
     {
         public static IMapper GetMapper()
             => new MapperConfiguration(cfg =>
