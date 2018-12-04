@@ -44,6 +44,7 @@ namespace CookBook.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
