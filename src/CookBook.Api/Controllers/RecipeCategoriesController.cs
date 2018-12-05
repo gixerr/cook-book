@@ -19,7 +19,7 @@ namespace CookBook.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Read()
         {
             var categories = await _categoryService.GetAllAsync();
 
@@ -27,7 +27,7 @@ namespace CookBook.Api.Controllers
         }
 
         [HttpGet("id/{id}")]
-        public async Task<ActionResult> Get(Guid id)
+        public async Task<ActionResult> Read(Guid id)
         {
             var category = await _categoryService.GetAsync(id);
 
@@ -35,7 +35,7 @@ namespace CookBook.Api.Controllers
         }
 
         [HttpGet("name/{name}")]
-        public async Task<ActionResult> Get(string name)
+        public async Task<ActionResult> Read(string name)
         {
             var category = await _categoryService.GetAsync(name);
 
