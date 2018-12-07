@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using CookBook.Infrastructure.CommandHandlers.Interfaces;
 using CookBook.Infrastructure.Dto;
@@ -16,13 +14,7 @@ namespace CookBook.Infrastructure.CommandHandlers.Recipes
             _service = service;
         }
 
-        public async Task HandleAsync(RecipeUpdateDto command)
-        {
-            var recipes = await _service.GetAsync(command.Name);
-            var recipeToUpdateId = recipes.Single(x => x.Category.Name.Equals(command.CategoryName,
-                StringComparison.OrdinalIgnoreCase)).Id;
-
-            await _service.UpdateAsync(recipeToUpdateId, command);
-        }
+        public async Task HandleAsync(RecipeUpdateDto command) 
+            => await _service.UpdateAsync(command);
     }
 }

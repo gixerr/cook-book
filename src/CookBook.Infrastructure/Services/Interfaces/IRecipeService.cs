@@ -12,7 +12,7 @@ namespace CookBook.Infrastructure.Services.Interfaces
         Task<IEnumerable<RecipeDto>> GetAsync(RecipeCategoryDto recipeCategoryDto);
         Task<RecipeDto> GetAsync(Guid id);
         Task AddAsync(RecipeCreateDto recipeDto);
-        Task UpdateAsync(Guid id, RecipeUpdateDto recipeUpdateDto);
+        Task UpdateAsync(RecipeUpdateDto recipeUpdateDto);
         Task RemoveAsync(Guid id);
     }
 }
