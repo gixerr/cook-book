@@ -19,7 +19,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             return ingredients;
         }
 
-        public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository, string name)
+        public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository,
+            string name)
         {
             var ingredients = await repository.GetAsync(name);
             ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(name));
@@ -30,26 +31,32 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<Ingredient> GetOrThrowAsync(this IIngredientRepository repository, Guid id)
         {
             var ingredient = await repository.GetAsync(id);
-            ingredient.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.IngredientNotFound(id.ToString()));
+            ingredient.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.IngredientNotFound(id.ToString()));
 
             return ingredient;
         }
 
-        public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository, IngredientCategory ingredientCategory)
+        public static async Task<IEnumerable<Ingredient>> GetOrThrowAsync(this IIngredientRepository repository,
+            IngredientCategory ingredientCategory)
         {
             var ingredients = await repository.GetAsync(ingredientCategory);
-            ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(ingredientCategory.Name));
+            ingredients.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.RecipeWithCategoryNotFound(ingredientCategory.Name));
 
             return ingredients;
         }
 
-        public static async Task AddOrThrowAsync(this IIngredientRepository ingredientRepository, IIngredientCategoryRepository ingredientCategoryRepository,
+        public static async Task AddOrThrowAsync(this IIngredientRepository ingredientRepository,
+            IIngredientCategoryRepository ingredientCategoryRepository,
             IngredientCreateDto ingredientDto)
         {
             var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
-            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredient = Ingredient.Create(ingredientDto.Name, category);
             await ingredientRepository.AddAsync(ingredient);
         }
@@ -59,9 +66,11 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             IngredientUpdateDto ingredientDto)
         {
             var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
-            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredient = await ingredientRepository.GetOrThrowAsync(ingredientDto.Id);
             ingredient.SetName(ingredientDto.Name);
             ingredient.SetCategory(category);

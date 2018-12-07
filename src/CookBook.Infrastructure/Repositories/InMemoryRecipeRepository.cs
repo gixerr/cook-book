@@ -10,11 +10,13 @@ namespace CookBook.Infrastructure.Repositories
     public class InMemoryRecipeRepository : IRecipeRepository
     {
         private static readonly ISet<Recipe> Recipes = new HashSet<Recipe>();
+
         public async Task<IEnumerable<Recipe>> GetAllAsync()
             => await Task.FromResult(Recipes);
-            
+
         public async Task<IEnumerable<Recipe>> GetAsync(string name)
-            => await Task.FromResult(Recipes.Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)));
+            => await Task.FromResult(
+                   Recipes.Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)));
 
         public async Task<IEnumerable<Recipe>> GetAsync(RecipeCategory recipeCategory)
             => await Task.FromResult(Recipes.Where(x => x.Category.Equals(recipeCategory)));

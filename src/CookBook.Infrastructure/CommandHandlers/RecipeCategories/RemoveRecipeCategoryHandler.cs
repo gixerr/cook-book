@@ -15,8 +15,6 @@ namespace CookBook.Infrastructure.CommandHandlers.RecipeCategories
         }
 
         public async Task HandleAsync(RecipeCategoryRemoveDto command)
-        {
-            await _categoryService.RemoveAsync(command.Id);
-        }
+            => await _categoryService.RemoveAsync(command.Id);
     }
 }

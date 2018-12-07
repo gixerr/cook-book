@@ -35,32 +35,40 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             return recipes;
         }
 
-        public static async Task<IEnumerable<Recipe>> GetOrThrowAsync(this IRecipeRepository repository, RecipeCategory recipeCategory)
+        public static async Task<IEnumerable<Recipe>> GetOrThrowAsync(this IRecipeRepository repository,
+            RecipeCategory recipeCategory)
         {
             var recipes = await repository.GetAsync(recipeCategory);
-            recipes.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeWithCategoryNotFound(recipeCategory.Name));
+            recipes.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.RecipeWithCategoryNotFound(recipeCategory.Name));
 
             return recipes;
         }
 
-        public static async Task AddOrThrowAsync(this IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository,
+        public static async Task AddOrThrowAsync(this IRecipeRepository recipeRepository,
+            IRecipeCategoryRepository recipeCategoryRepository,
             RecipeCreateDto recipeDto)
         {
             var category = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
             var recipes = await recipeRepository.GetAsync(recipeDto.Name);
-            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
+            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists,
+                ErrorMessage.RecipeExists(recipeDto.Name));
             var recipe = Recipe.Create(recipeDto.Name, category, recipeDto.ShortDescription, recipeDto.Preparation);
             await recipeRepository.AddAsync(recipe);
         }
 
-        public static async Task UpdateOrThrowAsync(this IRecipeRepository repository, IRecipeCategoryRepository recipeCategoryRepository,
+        public static async Task UpdateOrThrowAsync(this IRecipeRepository repository,
+            IRecipeCategoryRepository recipeCategoryRepository,
             RecipeUpdateDto recipeDto)
         {
             var category = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
             var recipes = await repository.GetAsync(recipeDto.Name);
-            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists, ErrorMessage.RecipeExists(recipeDto.Name));
+            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists,
+                ErrorMessage.RecipeExists(recipeDto.Name));
             var recipe = await repository.GetOrThrowAsync(recipeDto.Id);
             recipe.SetName(recipeDto.Name);
             recipe.SetCategory(category);

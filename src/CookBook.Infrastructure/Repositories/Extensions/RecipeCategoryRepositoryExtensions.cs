@@ -39,7 +39,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             RecipeCategoryCreateDto categoryDto)
         {
             var category = await repository.GetAsync(categoryDto.Name);
-            category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists, ErrorMessage.CategoryExists(categoryDto.Name));
+            category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists,
+                ErrorMessage.CategoryExists(categoryDto.Name));
             category = RecipeCategory.Create(categoryDto.Name);
             await repository.AddAsync(category);
         }
@@ -48,7 +49,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             Guid id, RecipeCategoryUpdateDto categoryDto)
         {
             var category = await repository.GetAsync(categoryDto.Name);
-            category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists, ErrorMessage.CategoryExists(categoryDto.Name));
+            category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists,
+                ErrorMessage.CategoryExists(categoryDto.Name));
             category = await repository.GetAsync(id);
             category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(id.ToString()));
             category.SetName(categoryDto.Name);
@@ -58,7 +60,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task RemoveOrThrowAsync(this IRecipeCategoryRepository repository, Guid categoryId)
         {
             var category = await repository.GetAsync(categoryId);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(categoryId.ToString()));
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(categoryId.ToString()));
             await repository.RemoveAsync(categoryId);
         }
     }
