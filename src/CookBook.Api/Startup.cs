@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CookBook.Api.Extensions;
+using CookBook.Infrastructure.DataInitializers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,8 @@ namespace CookBook.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseMvc();
+            var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+            dataInitializer.Initialize();
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
     }
