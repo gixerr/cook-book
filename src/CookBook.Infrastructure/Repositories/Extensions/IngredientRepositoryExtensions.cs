@@ -54,17 +54,18 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             await ingredientRepository.AddAsync(ingredient);
         }
 
-        public static async Task UpdateOrThrowAsync(this IIngredientRepository ingredientRepository, IIngredientCategoryRepository ingredientCategoryRepository,
-            Guid id, IngredientUpdateDto ingredientDto)
+        public static async Task UpdateOrThrowAsync(this IIngredientRepository ingredientRepository,
+            IIngredientCategoryRepository ingredientCategoryRepository,
+            IngredientUpdateDto ingredientDto)
         {
             var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
             category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
             ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.NotFound, ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
-            var ingredient = await ingredientRepository.GetOrThrowAsync(id);
+            var ingredient = await ingredientRepository.GetOrThrowAsync(ingredientDto.Id);
             ingredient.SetName(ingredientDto.Name);
             ingredient.SetCategory(category);
-            await ingredientRepository.UpdateAsync(id);
+            await ingredientRepository.UpdateAsync(ingredientDto.Id);
         }
 
         public static async Task RemoveOrThrowAsync(this IIngredientRepository repository, Guid id)
