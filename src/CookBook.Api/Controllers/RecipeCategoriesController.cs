@@ -58,12 +58,11 @@ namespace CookBook.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(RecipeCategoryRemoveDto command)
+        public async Task<ActionResult> Delete([FromRoute] RecipeCategoryRemoveDto command)
         {
             await CommandDispatcher.DispatchAsync(command);
 
             return NoContent();
         }
-        
     }
 }

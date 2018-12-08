@@ -40,8 +40,8 @@ namespace CookBook.Api.Controllers
             return Ok(recipes);
         }
 
-        [HttpGet("category")]
-        public async Task<ActionResult> Read(RecipeCategoryDto categoryDto)
+        [HttpGet("category/{name}")]
+        public async Task<ActionResult> Read([FromRoute] RecipeCategoryDto categoryDto)
         {
             var recipes = await _service.GetAsync(categoryDto);
 
@@ -65,7 +65,7 @@ namespace CookBook.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(RecipeRemoveDto command)
+        public async Task<ActionResult> Delete([FromRoute] RecipeRemoveDto command)
         {
             await CommandDispatcher.DispatchAsync(command);
 
