@@ -15,7 +15,7 @@ namespace CookBook.Api.Controllers
         {
             _service = service;
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> Read()
         {

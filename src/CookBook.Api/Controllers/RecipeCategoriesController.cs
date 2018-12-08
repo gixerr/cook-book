@@ -14,7 +14,7 @@ namespace CookBook.Api.Controllers
         public RecipeCategoriesController(ICommandDispatcher commandDispatcher, IRecipeCategoryService categoryService)
             : base(commandDispatcher)
         {
-            _categoryService = categoryService;    
+            _categoryService = categoryService;
         }
 
         [HttpGet]
