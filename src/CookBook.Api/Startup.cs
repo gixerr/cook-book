@@ -41,10 +41,10 @@ namespace CookBook.Api
             }
             else
             {
+                app.UseHttpsRedirection();
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseMvc();
             var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
