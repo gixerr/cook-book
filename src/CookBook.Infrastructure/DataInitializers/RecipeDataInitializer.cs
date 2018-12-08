@@ -21,8 +21,8 @@ namespace CookBook.Infrastructure.DataInitializers
             {
                 var recipeCreateDto = new RecipeCreateDto
                 {
-                    CategoryName = $"Category{i + 1}",
-                    Name = $"Recipe{i + 1}",
+                    CategoryName = $"Category-{i + 1}",
+                    Name = $"Recipe-{i + 1}",
                     Preparation = "Cook it well!",
                     ShortDescription = "Cook it"
                 };

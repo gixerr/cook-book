@@ -20,7 +20,7 @@ namespace CookBook.Infrastructure.DataInitializers
             {
                 var ingredientCategoryCreateDto = new IngredientCategoryCreateDto
                 {
-                    Name = $"Category{i + 1}"
+                    Name = $"Category-{i + 1}"
                 };
                 await _categoryService.AddAsync(ingredientCategoryCreateDto);
             }
