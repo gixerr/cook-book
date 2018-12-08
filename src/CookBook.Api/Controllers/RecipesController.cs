@@ -40,7 +40,7 @@ namespace CookBook.Api.Controllers
             return Ok(recipes);
         }
 
-        [HttpGet]
+        [HttpGet("category")]
         public async Task<ActionResult> Read(RecipeCategoryDto categoryDto)
         {
             var recipes = await _service.GetAsync(categoryDto);
