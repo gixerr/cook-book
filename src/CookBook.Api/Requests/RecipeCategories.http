@@ -23,7 +23,7 @@ PUT http://localhost:5000/api/recipecategories
 Content-Type: application/json
 
 {
-  "id" : "<ingredient category to update id>",
+  "id" : "<recipe category to update id>",
   "name" : ""
 }
 
