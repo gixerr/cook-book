@@ -14,10 +14,7 @@ namespace CookBook.Infrastructure.CommandHandlers.IngredientCategories
             _categoryService = categoryService;
         }
 
-        public async Task HandleAsync(IngredientCategoryUpdateDto command)
-        {
-            var categoryDto = await _categoryService.GetAsync(command.Name);
-            await _categoryService.UpdateAsync(categoryDto.Id, command);
-        }
+        public async Task HandleAsync(IngredientCategoryUpdateDto command) 
+            => await _categoryService.UpdateAsync(command);
     }
 }

@@ -45,8 +45,8 @@ namespace CookBook.Infrastructure.Services
         public async Task AddAsync(IngredientCategoryCreateDto categoryDto)
             => await _ingredientCategoryRepository.AddOrThrowAsync(categoryDto);
 
-        public async Task UpdateAsync(Guid categoryId, IngredientCategoryUpdateDto categoryDto)
-            => await _ingredientCategoryRepository.UpdateOrThrowAsync(categoryId, categoryDto);
+        public async Task UpdateAsync(IngredientCategoryUpdateDto categoryDto)
+            => await _ingredientCategoryRepository.UpdateOrThrowAsync(categoryDto);
 
         public async Task RemoveAsync(Guid id)
             => await _ingredientCategoryRepository.RemoveOrThrowAsync(id);
