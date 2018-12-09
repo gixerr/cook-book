@@ -11,7 +11,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
 {
     public static class RecipeCategoryRepositoryExtensions
     {
-        public static async Task<IEnumerable<RecipeCategory>> GetAllOrThrowAsync(this IRecipeCategoryRepository repository)
+        public static async Task<IEnumerable<RecipeCategory>> GetAllOrThrowAsync(
+            this IRecipeCategoryRepository repository)
         {
             var categories = await repository.GetAllAsync();
             categories.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.NoRecipeCategories);
@@ -46,13 +47,14 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         }
 
         public static async Task UpdateOrThrowAsync(this IRecipeCategoryRepository repository,
-            Guid id, RecipeCategoryUpdateDto categoryDto)
+            RecipeCategoryUpdateDto categoryDto)
         {
             var category = await repository.GetAsync(categoryDto.Name);
             category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists,
                 ErrorMessage.CategoryExists(categoryDto.Name));
-            category = await repository.GetAsync(id);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(id.ToString()));
+            category = await repository.GetAsync(categoryDto.Id);
+            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.CategoryNotFound(categoryDto.Id.ToString()));
             category.SetName(categoryDto.Name);
             await repository.UpdateAsync(category);
         }

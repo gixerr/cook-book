@@ -15,9 +15,6 @@ namespace CookBook.Infrastructure.CommandHandlers.RecipeCategories
         }
 
         public async Task HandleAsync(RecipeCategoryUpdateDto command)
-        {
-            var categoryDto = await _categoryService.GetAsync(command.Name);
-            await _categoryService.UpdateAsync(categoryDto.Id, command);
-        }
+            => await _categoryService.UpdateAsync(command);
     }
 }
