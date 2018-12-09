@@ -1,0 +1,33 @@
+### Get all recipe categories
+GET http://localhost:5000/api/recipecategories
+Accept: application/json
+
+### Get recipes by name
+GET http://localhost:5000/api/recipecategories/name/<recipe category name>
+Accept: application/json
+
+### Get recipe category by id
+GET http://localhost:5000/api/recipecategories/id/<recipe id>
+Accept: application/json
+
+### Add recipe category
+POST http://localhost:5000/api/recipecategories
+Content-Type: application/json
+
+{
+  "name" : ""
+}
+
+### Update recipe
+PUT http://localhost:5000/api/recipecategories
+Content-Type: application/json
+
+{
+  "id" : "<ingredient category to update id>",
+  "name" : ""
+}
+
+### Delete recipes
+DELETE http://localhost:5000/api/recipecategories/<ingredient category id>
+
+###

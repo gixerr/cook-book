@@ -1,0 +1,40 @@
+### Get all ingredients
+GET http://localhost:5000/api/ingredients
+Accept: application/json
+
+### Get ingredients by name
+GET http://localhost:5000/api/ingredients/name/<ingredient name>
+Accept: application/json
+
+### Get ingredient by id
+GET http://localhost:5000/api/ingredients/id/<ingredient id>
+Accept: application/json
+
+### Get ingredients by category
+GET http://localhost:5000/api/ingredients/category/<category name>
+Accept: application/json
+
+### Add ingredient
+POST http://localhost:5000/api/ingredients
+Content-Type: application/json
+
+{
+  "name" : "",
+  "categoryName" : ""
+}
+
+### Update ingredient
+PUT http://localhost:5000/api/ingredients
+Content-Type: application/json
+
+{
+  "id" : "<ingredient to update id>",
+  "name" : "",
+  "categoryName" : ""
+}
+
+### Delete ingredient
+DELETE http://localhost:5000/api/ingredients/<ingredient id>
+Content-Type: application/json
+
+###
