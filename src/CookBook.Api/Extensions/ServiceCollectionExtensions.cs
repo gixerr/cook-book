@@ -1,4 +1,6 @@
+using CookBook.Infrastructure.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -12,6 +14,8 @@ namespace CookBook.Api.Extensions
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(x => { x.SerializerSettings.Formatting = Formatting.Indented; });
+            services.AddDbContext<CookBookDbContext>(options
+                => options.UseSqlServer(configuration.GetConnectionString("Default")));
         }
     }
 }
