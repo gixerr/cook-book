@@ -23,7 +23,7 @@ namespace CookBook.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddFrameworkServices();
+            services.AddFrameworkServices(Configuration);
             var builder = new ContainerBuilder();
             builder.RegisterAppTypes().Populate(services);
             Container = builder.Build();
