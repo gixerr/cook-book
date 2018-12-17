@@ -12,6 +12,11 @@ namespace CookBook.Core.Domain
         public string ShortDescription { get; protected set; }
         public string Preparation { get; protected set; }
 
+        protected Recipe()
+        {
+            
+        }
+
         private Recipe(string name, RecipeCategory category, string shortDescription, string preparation)
         {
             SetName(name);
