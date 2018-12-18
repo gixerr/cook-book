@@ -9,8 +9,6 @@ namespace CookBook.Core.Domain
         public IngredientCategory Category { get; protected set; }
         public string Measure { get; protected set; }
         public float Amount { get; protected set; }
-        public Recipe Recipe { get; protected set; }
-        public Guid RecipeId { get; protected set; }
 
         protected RecipeIngredient()
         {
@@ -35,7 +33,7 @@ namespace CookBook.Core.Domain
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientCategory);
 
         public void SetMeasure(string measure)
-            => Measure = Validate(measure, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientMeasure);
+            => Name = Validate(measure, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientMeasure);
 
         public void SetAmount(float amount)
         {
