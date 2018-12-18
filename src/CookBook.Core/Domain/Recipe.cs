@@ -1,20 +1,28 @@
 using CookBook.Core.Exceptions;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CookBook.Core.Domain
 {
+    [Table("Recipes")]
     public class Recipe : Entity
     {
         private ISet<RecipeIngredient> _ingredients = new HashSet<RecipeIngredient>();
-        public string Name { get; protected set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
+
+        [Required]
         public RecipeCategory Category { get; protected set; }
+
         public IEnumerable<RecipeIngredient> Ingredients => _ingredients;
         public string ShortDescription { get; protected set; }
         public string Preparation { get; protected set; }
 
         protected Recipe()
         {
-            
         }
 
         private Recipe(string name, RecipeCategory category, string shortDescription, string preparation)
@@ -36,10 +44,11 @@ namespace CookBook.Core.Domain
 
         public void SetIngredients(IEnumerable<RecipeIngredient> ingredients)
             => _ingredients = (HashSet<RecipeIngredient>)Validate(ingredients, ErrorCode.EmptyModelProperty,
-                ErrorMessage.EmptyIngredientList);
+                   ErrorMessage.EmptyIngredientList);
 
         public void SetShortDescription(string shortDescription)
-            => ShortDescription = Validate(shortDescription, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyShortDescription);
+            => ShortDescription = Validate(shortDescription, ErrorCode.EmptyModelProperty,
+                   ErrorMessage.EmptyShortDescription);
 
         public void SetPreparation(string preparation)
             => Preparation = Validate(preparation, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipePreparation);

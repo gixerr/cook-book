@@ -1,10 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using CookBook.Core.Exceptions;
 
 namespace CookBook.Core.Domain
 {
+    [Table("Ingredients")]
     public class Ingredient : Entity
     {
+        [Required]
+        [StringLength(255)]
         public string Name { get; protected set; }
+
         public IngredientCategory Category { get; protected set; }
 
         protected Ingredient()
@@ -22,7 +28,7 @@ namespace CookBook.Core.Domain
 
         public void SetCategory(IngredientCategory category)
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientCategory);
-        
+
         public void SetName(string name)
             => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyIngredientName);
     }
