@@ -10,5 +10,8 @@ namespace CookBook.Api.EntityFramework
         }
 
         public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<RecipeCategory> RecipeCategories { get; set; }
+        public DbSet<IngredientCategory> IngredientCategories { get; set; }
     }
 }
