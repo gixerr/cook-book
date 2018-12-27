@@ -1,5 +1,5 @@
-using CookBook.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using CookBook.Core.Domain;
 
 namespace CookBook.Api.EntityFramework
 {
