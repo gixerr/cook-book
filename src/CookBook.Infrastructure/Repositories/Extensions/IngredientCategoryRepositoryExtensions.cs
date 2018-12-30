@@ -67,7 +67,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             var category = await repository.GetAsync(categoryId);
             category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
                 ErrorMessage.CategoryNotFound(categoryId.ToString()));
-            await repository.RemoveAsync(categoryId);
+            await repository.RemoveAsync(category);
         }
     }
 }

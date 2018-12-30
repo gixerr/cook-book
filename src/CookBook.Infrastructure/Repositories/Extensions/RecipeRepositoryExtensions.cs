@@ -72,14 +72,14 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             recipe.SetCategory(category);
             recipe.SetShortDescription(recipeDto.ShortDescription);
             recipe.SetPreparation(recipeDto.Preparation);
-            await repository.UpdateAsync(recipeDto.Id);
+            await repository.UpdateAsync(recipe);
         }
 
         public static async Task RemoveOrThrowAsync(this IRecipeRepository repository, Guid id)
         {
             var recipe = await repository.GetOrThrowAsync(id);
             recipe.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
-            await repository.RemoveAsync(id);
+            await repository.RemoveAsync(recipe);
         }
     }
 }
