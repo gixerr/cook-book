@@ -12,7 +12,7 @@ namespace CookBook.Core.Repositories
         Task<IEnumerable<Recipe>> GetAsync(RecipeCategory recipeCategory);
         Task<Recipe> GetAsync(Guid id);
         Task AddAsync(Recipe recipe);
-        Task UpdateAsync(Guid id);
-        Task RemoveAsync(Guid id);
+        Task UpdateAsync(Recipe recipe);
+        Task RemoveAsync(Recipe recipe);
     }
 }
