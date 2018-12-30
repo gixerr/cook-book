@@ -11,6 +11,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
 {
     public static class RecipeCategoryRepositoryExtensions
     {
+        //TODO: Change to GetOrThrowAsync
         public static async Task<IEnumerable<RecipeCategory>> GetAllOrThrowAsync(
             this IRecipeCategoryRepository repository)
         {

@@ -11,6 +11,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
 {
     public static class RecipeRepositoryExtensions
     {
+        //TODO: Change to GetOrThrowAsync
         public static async Task<IEnumerable<Recipe>> GetAllOrThrowAsync(this IRecipeRepository repository)
         {
             var recipes = await repository.GetAllAsync();
@@ -66,9 +67,6 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             var category = await recipeCategoryRepository.GetAsync(recipeDto.CategoryName);
             category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
                 ErrorMessage.CategoryNotFound(recipeDto.CategoryName));
-            var recipes = await repository.GetAsync(recipeDto.Name);
-            recipes.ThrowServiceExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists,
-                ErrorMessage.RecipeExists(recipeDto.Name));
             var recipe = await repository.GetOrThrowAsync(recipeDto.Id);
             recipe.SetName(recipeDto.Name);
             recipe.SetCategory(category);

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CookBook.Infrastructure.Repositories.Extensions
 {
+    //TODO: Change to GetOrThrowAsync
     public static class IngredientRepositoryExtensions
     {
         public static async Task<IEnumerable<Ingredient>> GetAllOrThrowAsync(this IIngredientRepository repository)
