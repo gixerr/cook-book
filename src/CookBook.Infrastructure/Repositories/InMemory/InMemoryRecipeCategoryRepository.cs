@@ -1,11 +1,11 @@
-﻿using CookBook.Core.Domain;
-using CookBook.Core.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CookBook.Core.Domain;
+using CookBook.Core.Repositories;
 
-namespace CookBook.Infrastructure.Repositories
+namespace CookBook.Infrastructure.Repositories.InMemory
 {
     public class InMemoryRecipeCategoryRepository : IRecipeCategoryRepository
     {
@@ -27,7 +27,7 @@ namespace CookBook.Infrastructure.Repositories
         public async Task UpdateAsync(RecipeCategory category)
             => await Task.CompletedTask;
 
-        public async Task RemoveAsync(Guid id)
-            => Categories.Remove(await GetAsync(id));
+        public async Task RemoveAsync(RecipeCategory category) 
+            => await Task.FromResult(Categories.Remove(category));
     }
 }

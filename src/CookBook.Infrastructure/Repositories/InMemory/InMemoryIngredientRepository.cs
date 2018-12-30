@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CookBook.Core.Domain;
 using CookBook.Core.Repositories;
 
-namespace CookBook.Infrastructure.Repositories
+namespace CookBook.Infrastructure.Repositories.InMemory
 {
     public class InMemoryIngredientRepository : IIngredientRepository
     {
@@ -27,10 +27,10 @@ namespace CookBook.Infrastructure.Repositories
         public async Task AddAsync(Ingredient ingredient)
             => await Task.FromResult(Ingredients.Add(ingredient));
 
-        public async Task UpdateAsync(Guid id)
+        public async Task UpdateAsync(Ingredient ingredient)
             => await Task.CompletedTask;
 
-        public async Task RemoveAsync(Guid id)
-            => Ingredients.Remove(await GetAsync(id));
+        public async Task RemoveAsync(Ingredient ingredient) 
+            => await Task.FromResult(Ingredients.Remove(ingredient));
     }
 }
