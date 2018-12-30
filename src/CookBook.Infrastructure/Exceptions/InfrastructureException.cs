@@ -2,9 +2,9 @@ using CookBook.Core.Exceptions;
 
 namespace CookBook.Infrastructure.Exceptions
 {
-    public class ServiceException : BaseAppException
+    public class InfrastructureException : BaseAppException
     {
-        public ServiceException(string errorCode, string erroeMessage)
+        public InfrastructureException(string errorCode, string erroeMessage)
             : base(errorCode, erroeMessage)
         {
         }
