@@ -8,22 +8,22 @@ namespace CookBook.Infrastructure.DomainExtensions
 {
     internal static class RecipeExtensions
     {
-        internal static void ThrowServiceExceptionIfNotExist(this Recipe recipes, string errorCode, string errorMessage)
-            => _ = recipes ?? throw new ServiceException(errorCode, errorMessage);
+        internal static void ThrowInfrastructureExceptionIfNotExist(this Recipe recipes, string errorCode, string errorMessage)
+            => _ = recipes ?? throw new InfrastructureException(errorCode, errorMessage);
 
-        internal static void ThrowServiceExceptionIfNotExist(this IEnumerable<Recipe> recipes, string errorCode, string errorMessage)
+        internal static void ThrowInfrastructureExceptionIfNotExist(this IEnumerable<Recipe> recipes, string errorCode, string errorMessage)
         {
             if (recipes?.Any() is false)
             {
-                throw new ServiceException(errorCode, errorMessage);
+                throw new InfrastructureException(errorCode, errorMessage);
             }
         }
 
-        internal static void ThrowServiceExceptionIfExist(this IEnumerable<Recipe> recipes, string categoryName, string errorCode, string errorMessage)
+        internal static void ThrowInfrastructureExceptionIfExist(this IEnumerable<Recipe> recipes, string categoryName, string errorCode, string errorMessage)
         {
             if (recipes?.Any(x => x.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
             {
-                throw new ServiceException(errorCode, errorMessage);
+                throw new InfrastructureException(errorCode, errorMessage);
             }
         }
     }

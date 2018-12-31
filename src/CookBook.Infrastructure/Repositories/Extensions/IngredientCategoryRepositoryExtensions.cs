@@ -16,7 +16,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             this IIngredientCategoryRepository repository)
         {
             var categories = await repository.GetAllAsync();
-            categories.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.NoIngredientCategories);
+            categories.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.NoIngredientCategories);
 
             return categories;
         }
@@ -25,7 +25,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             Guid id)
         {
             var category = await repository.GetAsync(id);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(id.ToString()));
+            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(id.ToString()));
 
             return category;
         }
@@ -34,7 +34,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             string name)
         {
             var category = await repository.GetAsync(name);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(name));
+            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.CategoryNotFound(name));
 
             return category;
         }
@@ -56,7 +56,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             category.ThrowServiceExceptionIfExist(ErrorCode.CategoryExists,
                 ErrorMessage.CategoryExists(categoryDto.Name));
             category = await repository.GetAsync(categoryDto.Id);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound,
                 ErrorMessage.CategoryNotFound(categoryDto.Id.ToString()));
             category.SetName(categoryDto.Name);
             await repository.UpdateAsync(category);
@@ -65,7 +65,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task RemoveOrThrowAsync(this IIngredientCategoryRepository repository, Guid categoryId)
         {
             var category = await repository.GetAsync(categoryId);
-            category.ThrowServiceExceptionIfNotExist(ErrorCode.NotFound,
+            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound,
                 ErrorMessage.CategoryNotFound(categoryId.ToString()));
             await repository.RemoveAsync(category);
         }
