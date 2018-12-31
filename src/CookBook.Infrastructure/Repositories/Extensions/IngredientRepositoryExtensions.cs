@@ -65,7 +65,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         {
             var category = await ingredientCategoryRepository.GetOrThrowAsync(ingredientDto.CategoryName);
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
-            ingredients.ThrowServiceExceptionIfExist(ingredientDto.Name, ErrorCode.IngredientExists,
+            ingredients.ThrowServiceExceptionIfExist(ingredientDto.CategoryName, ErrorCode.IngredientExists,
                 ErrorMessage.IngredientExists(ingredientDto.Name));
             var ingredient = await ingredientRepository.GetOrThrowAsync(ingredientDto.Id);
             ingredient.SetName(ingredientDto.Name);
