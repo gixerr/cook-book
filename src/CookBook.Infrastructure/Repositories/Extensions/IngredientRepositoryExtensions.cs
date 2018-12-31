@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace CookBook.Infrastructure.Repositories.Extensions
 {
-    //TODO: Change to GetOrThrowAsync
     public static class IngredientRepositoryExtensions
     {
         public static async Task<IEnumerable<Ingredient>> GetAllOrThrowAsync(this IIngredientRepository repository)
@@ -52,9 +51,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             IIngredientCategoryRepository ingredientCategoryRepository,
             IngredientCreateDto ingredientDto)
         {
-            var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound,
-                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            var category = await ingredientCategoryRepository.GetOrThrowAsync(ingredientDto.CategoryName);
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
             ingredients.ThrowServiceExceptionIfExist(ingredientDto.Name, ErrorCode.IngredientExists,
                 ErrorMessage.IngredientExists(ingredientDto.Name));
@@ -66,9 +63,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             IIngredientCategoryRepository ingredientCategoryRepository,
             IngredientUpdateDto ingredientDto)
         {
-            var category = await ingredientCategoryRepository.GetAsync(ingredientDto.CategoryName);
-            category.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound,
-                ErrorMessage.CategoryNotFound(ingredientDto.CategoryName));
+            var category = await ingredientCategoryRepository.GetOrThrowAsync(ingredientDto.CategoryName);
             var ingredients = await ingredientRepository.GetAsync(ingredientDto.Name);
             ingredients.ThrowServiceExceptionIfExist(ingredientDto.Name, ErrorCode.IngredientExists,
                 ErrorMessage.IngredientExists(ingredientDto.Name));
@@ -81,7 +76,6 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task RemoveOrThrowAsync(this IIngredientRepository repository, Guid id)
         {
             var ingredient = await repository.GetOrThrowAsync(id);
-            ingredient.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
             await repository.RemoveAsync(ingredient);
         }
     }
