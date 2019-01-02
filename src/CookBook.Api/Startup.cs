@@ -26,7 +26,7 @@ namespace CookBook.Api
         {
             services.AddFrameworkServices(Configuration);
             var builder = new ContainerBuilder();
-            builder.RegisterDataProviderModule(Configuration)
+            builder.RegisterRepositoryModule(Configuration)
                    .RegisterDataInitializers()
                    .RegisterCommandModule()
                    .RegisterAutoMapper()
