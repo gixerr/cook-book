@@ -57,17 +57,20 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             await recipeRepository.AddAsync(recipe);
         }
 
-        public static async Task UpdateOrThrowAsync(this IRecipeRepository repository,
+        public static async Task UpdateOrThrowAsync(this IRecipeRepository recipeRepository,
             IRecipeCategoryRepository recipeCategoryRepository,
             RecipeUpdateDto recipeDto)
         {
             var category = await recipeCategoryRepository.GetOrThrowAsync(recipeDto.CategoryName);
-            var recipe = await repository.GetOrThrowAsync(recipeDto.Id);
+            var recipes = await recipeRepository.GetAsync(recipeDto.Name);
+            recipes.ThrowInfrastructureExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists,
+                ErrorMessage.RecipeExists(recipeDto.Name));
+            var recipe = await recipeRepository.GetOrThrowAsync(recipeDto.Id);
             recipe.SetName(recipeDto.Name);
             recipe.SetCategory(category);
             recipe.SetShortDescription(recipeDto.ShortDescription);
             recipe.SetPreparation(recipeDto.Preparation);
-            await repository.UpdateAsync(recipe);
+            await recipeRepository.UpdateAsync(recipe);
         }
 
         public static async Task RemoveOrThrowAsync(this IRecipeRepository repository, Guid id)
