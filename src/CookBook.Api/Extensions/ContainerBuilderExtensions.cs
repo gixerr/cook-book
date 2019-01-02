@@ -12,7 +12,7 @@ namespace CookBook.Api.Extensions
     public static class ContainerBuilderExtensions
     {
         //TODO: Refactor this method
-        public static ContainerBuilder RegisterDataProviderModule(this ContainerBuilder builder,
+        public static ContainerBuilder RegisterRepositoryModule(this ContainerBuilder builder,
             IConfiguration configuration)
         {
             var persistence = new PersistenceSettings();
