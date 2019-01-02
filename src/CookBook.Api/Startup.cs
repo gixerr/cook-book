@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CookBook.Api.Extensions;
+using CookBook.Infrastructure.DataInitializers;
 using CookBook.Infrastructure.DataInitializers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,7 @@ namespace CookBook.Api
             services.AddFrameworkServices(Configuration);
             var builder = new ContainerBuilder();
             builder.RegisterDataProviderModule(Configuration)
+                   .RegisterDataInitializers()
                    .RegisterCommandModule()
                    .RegisterAutoMapper()
                    .Populate(services);
