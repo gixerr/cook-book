@@ -33,6 +33,13 @@ namespace CookBook.Api.Extensions
                 ErrorMessage.InvalidDataProvider(persistence.ProviderType));
         }
 
+        public static ContainerBuilder RegisterServicesModule(this ContainerBuilder builder)
+        {
+            builder.RegisterModule<ServicesModule>();
+
+            return builder;
+        }
+
         public static ContainerBuilder RegisterCommandModule(this ContainerBuilder builder)
         {
             var infrastructureAssembly = typeof(CommandModule).Assembly;
