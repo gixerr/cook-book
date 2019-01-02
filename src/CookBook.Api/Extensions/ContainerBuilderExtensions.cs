@@ -50,5 +50,12 @@ namespace CookBook.Api.Extensions
 
             return builder;
         }
+
+        public static ContainerBuilder RegisterDataInitializers(this ContainerBuilder builder)
+        {
+            builder.RegisterModule<DataInitializersModule>();
+
+            return builder;
+        }
     }
 }
