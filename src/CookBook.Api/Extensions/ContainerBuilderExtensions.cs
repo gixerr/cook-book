@@ -5,6 +5,8 @@ using CookBook.Infrastructure.CommandHandlers.Interfaces;
 using CookBook.Infrastructure.Exceptions;
 using CookBook.Infrastructure.IoC.Modules;
 using CookBook.Infrastructure.Mappings;
+using CookBook.Infrastructure.Services;
+using CookBook.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace CookBook.Api.Extensions
@@ -42,10 +44,7 @@ namespace CookBook.Api.Extensions
 
         public static ContainerBuilder RegisterCommandModule(this ContainerBuilder builder)
         {
-            var infrastructureAssembly = typeof(CommandModule).Assembly;
-            builder.RegisterAssemblyTypes(infrastructureAssembly)
-                   .AsClosedTypesOf(typeof(ICommandHandler<>))
-                   .InstancePerLifetimeScope();
+            builder.RegisterModule<CommandModule>();
 
             return builder;
         }
