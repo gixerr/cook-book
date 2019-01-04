@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CookBook.Api.Extensions;
+using CookBook.Api.Middleware;
 using CookBook.Infrastructure.DataInitializers;
 using CookBook.Infrastructure.DataInitializers.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,8 @@ namespace CookBook.Api
                 app.UseHttpsRedirection();
                 app.UseHsts();
             }
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseStaticFiles();
             app.UseMvc();
