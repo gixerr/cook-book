@@ -1,0 +1,41 @@
+# =========================== Recipe Categories Controller ============================= #
+
+@apiUrl = http://localhost:5000
+@getCategoryName = *****                          
+@getCategoryId = *****
+@deleteCategoryId = *****
+
+# =============================================================================== #
+
+### Get all recipe categories
+GET {{apiUrl}}/api/recipecategories
+Accept: application/json
+
+### Get recipes by name
+GET {{apiUrl}}/api/recipecategories/name/{{getCategoryName}}
+Accept: application/json
+
+### Get recipe category by id
+GET {{apiUrl}}/api/recipecategories/id/{{getCategoryId}}
+Accept: application/json
+
+### Add recipe category
+POST {{apiUrl}}/api/recipecategories
+Content-Type: application/json
+
+{
+  "name" : ""
+}
+
+### Update recipe
+PUT {{apiUrl}}/api/recipecategories
+Content-Type: application/json
+
+{
+  "id" : "",
+  "name" : ""
+}
+
+### Delete recipes
+DELETE {{apiUrl}}/api/recipecategories/{{deleteCategoryId}}
+
