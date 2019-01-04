@@ -4,7 +4,7 @@ namespace CookBook.Core.Exceptions
 {
     public abstract class BaseAppException : Exception
     {
-        protected string ErrorCode { get; }
+        public string ErrorCode { get; }
 
         protected BaseAppException()
         {
