@@ -1,9 +1,9 @@
-using System;
-using System.Threading.Tasks;
 using CookBook.Infrastructure.Commands.Interfaces;
 using CookBook.Infrastructure.Dto;
 using CookBook.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace CookBook.Api.Controllers
 {
