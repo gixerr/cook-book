@@ -3,19 +3,20 @@ using CookBook.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace CookBook.Infrastructure.DomainExtensions
 {
     internal static class RecipeExtensions
     {
         internal static void ThrowInfrastructureExceptionIfNotExist(this Recipe recipes, string errorCode, string errorMessage)
-            => _ = recipes ?? throw new InfrastructureException(errorCode, errorMessage);
+            => _ = recipes ?? throw new InfrastructureException(errorCode, errorMessage, HttpStatusCode.NotFound);
 
         internal static void ThrowInfrastructureExceptionIfNotExist(this IEnumerable<Recipe> recipes, string errorCode, string errorMessage)
         {
             if (recipes?.Any() is false)
             {
-                throw new InfrastructureException(errorCode, errorMessage);
+                throw new InfrastructureException(errorCode, errorMessage, HttpStatusCode.NotFound);
             }
         }
 
@@ -23,7 +24,7 @@ namespace CookBook.Infrastructure.DomainExtensions
         {
             if (recipes?.Any(x => x.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)) is true)
             {
-                throw new InfrastructureException(errorCode, errorMessage);
+                throw new InfrastructureException(errorCode, errorMessage, HttpStatusCode.Conflict);
             }
         }
     }
