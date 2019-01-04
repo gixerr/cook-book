@@ -1,4 +1,3 @@
-using System;
 using Autofac;
 using CookBook.Api.Settings;
 using CookBook.Infrastructure.CommandHandlers.Interfaces;
@@ -8,6 +7,7 @@ using CookBook.Infrastructure.Mappings;
 using CookBook.Infrastructure.Services;
 using CookBook.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CookBook.Api.Extensions
 {
@@ -52,7 +52,7 @@ namespace CookBook.Api.Extensions
         public static ContainerBuilder RegisterAutoMapper(this ContainerBuilder builder)
         {
             builder.RegisterInstance(AutoMapperConfig.GetMapper())
-                   .SingleInstance();
+                .SingleInstance();
 
             return builder;
         }
