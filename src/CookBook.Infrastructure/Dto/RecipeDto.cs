@@ -11,5 +11,6 @@ namespace CookBook.Infrastructure.Dto
         public RecipeCategory Category { get; set; }
         public IEnumerable<RecipeIngredient> Ingredients { get; set; }
         public string ShortDescription { get; set; }
+        public string Preparation {get; set;}
     }
 }
