@@ -19,17 +19,21 @@ namespace CookBook.Infrastructure.Repositories.EntityFramework
         }
 
         public async Task<IEnumerable<Ingredient>> GetAllAsync()
-            => await _context.Ingredients.ToListAsync();
+            => await _context.Ingredients.Include(x => x.Category)
+                                         .ToListAsync();
 
         public async Task<IEnumerable<Ingredient>> GetAsync(string name)
-            => await _context.Ingredients.Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
-                             .ToListAsync();
+            => await _context.Ingredients.Include(x => x.Category)
+                                         .Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                                         .ToListAsync();
 
         public async Task<IEnumerable<Ingredient>> GetAsync(IngredientCategory ingredientCategory)
-            => await _context.Ingredients.Where(x => x.Category.Equals(ingredientCategory)).ToListAsync();
+            => await _context.Ingredients.Where(x => x.Category.Equals(ingredientCategory))
+                                         .ToListAsync();
 
-        public async Task<Ingredient> GetAsync(Guid id) 
-            => await _context.Ingredients.FindAsync(id);
+        public async Task<Ingredient> GetAsync(Guid id)
+            => await _context.Ingredients.Include(x => x.Category)
+                                         .SingleOrDefaultAsync(x => x.Id.Equals(id));
 
         public async Task AddAsync(Ingredient ingredient)
         {
@@ -37,7 +41,7 @@ namespace CookBook.Infrastructure.Repositories.EntityFramework
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Ingredient ingredient) 
+        public async Task UpdateAsync(Ingredient ingredient)
             => await _context.SaveChangesAsync();
 
         public async Task RemoveAsync(Ingredient ingredient)
