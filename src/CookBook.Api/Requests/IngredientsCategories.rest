@@ -1,0 +1,41 @@
+# =========================== Ingredient Categories Controller ============================= #
+
+@apiUrl = http://localhost:5000
+@getCategoryName = *****                         
+@getCategoryId = *****
+@deleteCategoryId = *****
+
+# =============================================================================== #
+
+### Get all ingredient categories
+GET {{apiUrl}}/api/ingredientcategories
+Accept: application/json
+
+### Get ingredient category by name
+GET {{apiUrl}}/api/ingredientcategories/name/{{getCategoryName}}
+Accept: application/json
+
+### Get ingredient category by id
+GET {{apiUrl}}/api/ingredientcategories/id/{{getCategoryId}}
+Accept: application/json
+
+### Add ingredient category
+POST {{apiUrl}}/api/ingredientcategories
+Content-Type: application/json
+
+{
+  "name" : ""
+}
+
+### Update ingredient category
+PUT {{apiUrl}}/api/ingredientcategories
+Content-Type: application/json
+
+{
+  "id": "",
+  "name" : ""
+}
+
+### Delete ingredient category
+DELETE {{apiUrl}}/api/ingredientcategories/{{deleteCategoryId}}
+Content-Type: application/json
