@@ -22,7 +22,6 @@ namespace CookBook.Api
         public IConfiguration Configuration { get; }
         public IContainer Container { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddFrameworkServices(Configuration);
@@ -38,7 +37,6 @@ namespace CookBook.Api
             return new AutofacServiceProvider(Container);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             IApplicationLifetime applicationLifetime)
         {
