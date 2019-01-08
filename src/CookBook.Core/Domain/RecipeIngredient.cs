@@ -33,7 +33,7 @@ namespace CookBook.Core.Domain
             => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientCategory);
 
         public void SetMeasure(string measure)
-            => Name = Validate(measure, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientMeasure);
+            => Measure = Validate(measure, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientMeasure);
 
         public void SetAmount(float amount)
         {
