@@ -50,3 +50,14 @@ Content-Type: application/json
 ### Delete ingredient
 DELETE {{apiUrl}}/api/recipes/{{deleteRecipeId}}
 Content-Type: application/json
+
+### Add recipe ingredient
+PATCH {{apiUrl}}/api/recipes
+Content-Type: application/json
+
+{
+  "recipeId" : "",
+  "ingredientId" : "",
+  "measure" : "",
+  "amount" : 
+}
