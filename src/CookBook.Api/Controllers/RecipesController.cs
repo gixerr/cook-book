@@ -71,5 +71,13 @@ namespace CookBook.Api.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch]
+        public async Task<ActionResult> AddIngredient(RecipeIngredientAddDto command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+
+            return NoContent();
+        }
     }
 }
