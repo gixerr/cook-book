@@ -1,4 +1,4 @@
-using CookBook.Api.EntityFramework;
+using CookBook.Infrastructure.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

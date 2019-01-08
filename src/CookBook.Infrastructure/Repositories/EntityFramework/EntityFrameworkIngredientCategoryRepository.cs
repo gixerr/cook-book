@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CookBook.Api.EntityFramework;
 using CookBook.Core.Domain;
 using CookBook.Core.Repositories;
+using CookBook.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace CookBook.Infrastructure.Repositories.EntityFramework
