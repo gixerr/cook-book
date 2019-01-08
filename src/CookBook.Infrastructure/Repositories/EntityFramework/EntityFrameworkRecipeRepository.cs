@@ -20,20 +20,28 @@ namespace CookBook.Infrastructure.Repositories.EntityFramework
 
         public async Task<IEnumerable<Recipe>> GetAllAsync() 
             => await _context.Recipes.Include(x => x.Category)
+                                     .Include(x => x.Ingredients)
+                                        .ThenInclude(x => x.Category)
                                      .ToListAsync();
 
         public async Task<IEnumerable<Recipe>> GetAsync(string name) 
             => await _context.Recipes.Include(x => x.Category)
+                                     .Include(x => x.Ingredients)
+                                        .ThenInclude(x => x.Category)
                                      .Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
                                      .ToListAsync();
 
         public async Task<IEnumerable<Recipe>> GetAsync(RecipeCategory recipeCategory) 
             => await _context.Recipes.Include(x => x.Category)
+                                     .Include(x => x.Ingredients)
+                                        .ThenInclude(x => x.Category)
                                      .Where(x => x.Category.Equals(recipeCategory))
                                      .ToListAsync();
 
         public async Task<Recipe> GetAsync(Guid id) 
             => await _context.Recipes.Include(x => x.Category)
+                                     .Include(x => x.Ingredients)
+                                        .ThenInclude(x => x.Category)
                                      .SingleOrDefaultAsync(x => x.Id.Equals(id));
 
         public async Task AddAsync(Recipe recipe)
