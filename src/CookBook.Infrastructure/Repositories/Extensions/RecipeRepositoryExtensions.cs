@@ -22,7 +22,8 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task<Recipe> GetOrThrowAsync(this IRecipeRepository repository, Guid id)
         {
             var recipe = await repository.GetAsync(id);
-            recipe.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound, ErrorMessage.RecipeNotFound(id.ToString()));
+            recipe.ThrowInfrastructureExceptionIfNotExist(ErrorCode.NotFound,
+                ErrorMessage.RecipeNotFound(id.ToString()));
 
             return recipe;
         }
@@ -48,7 +49,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         public static async Task AddOrThrowAsync(this IRecipeRepository recipeRepository,
             IRecipeCategoryRepository recipeCategoryRepository,
             RecipeCreateDto recipeDto)
-        {   
+        {
             var category = await recipeCategoryRepository.GetOrThrowAsync(recipeDto.CategoryName);
             var recipes = await recipeRepository.GetAsync(recipeDto.Name);
             recipes.ThrowInfrastructureExceptionIfExist(recipeDto.CategoryName, ErrorCode.RecipeExists,
@@ -77,6 +78,17 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         {
             var recipe = await repository.GetOrThrowAsync(id);
             await repository.RemoveAsync(recipe);
+        }
+
+        public static async Task AddIngredientOrThrowAsync(this IRecipeRepository recipeRepository,
+            IIngredientRepository ingredientRepository, RecipeIngredientAddDto recipeIngredientDto)
+        {
+            var recipe = await recipeRepository.GetOrThrowAsync(recipeIngredientDto.RecipeId);
+            var ingredient = await ingredientRepository.GetOrThrowAsync(recipeIngredientDto.IngredientId);
+            var recipeIngredient = RecipeIngredient.Create(ingredient, recipeIngredientDto.Measure,
+                recipeIngredientDto.Amount);
+            recipe.AddIngredient(recipeIngredient);
+            await recipeRepository.UpdateAsync(recipe); 
         }
     }
 }

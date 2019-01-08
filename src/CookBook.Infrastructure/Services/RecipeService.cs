@@ -65,14 +65,7 @@ namespace CookBook.Infrastructure.Services
             => await _recipeRepository.RemoveOrThrowAsync(id);
 
         public async Task AddIngredientAsync(RecipeIngredientAddDto recipeIngredientDto)
-        {
-            var recipe = await _recipeRepository.GetOrThrowAsync(recipeIngredientDto.RecipeId);
-            var ingredient = await _ingredientRepository.GetOrThrowAsync(recipeIngredientDto.IngredientId);
-            var recipeIngredient = RecipeIngredient.Create(ingredient, recipeIngredientDto.Measure,
-                recipeIngredientDto.Amount);
-            recipe.AddIngredient(recipeIngredient);
-            await _recipeRepository.UpdateAsync(recipe); 
-        }
+            => await _recipeRepository.AddIngredientOrThrowAsync(_ingredientRepository, recipeIngredientDto);
 
         private RecipeDto Dto(Recipe model)
             => _mapper.Map<RecipeDto>(model);
