@@ -1,7 +1,9 @@
+using System;
 using CookBook.Core.Exceptions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace CookBook.Core.Domain
 {
@@ -52,6 +54,9 @@ namespace CookBook.Core.Domain
 
         public void SetPreparation(string preparation)
             => Preparation = Validate(preparation, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipePreparation);
+
+        public RecipeIngredient GetIngredient(Guid id)
+            => _ingredients.SingleOrDefault(x => x.Id.Equals(id));
 
         public void AddIngredient(RecipeIngredient ingredient)
             => _ingredients.Add(ingredient);
