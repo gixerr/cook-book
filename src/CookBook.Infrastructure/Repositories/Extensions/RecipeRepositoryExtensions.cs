@@ -5,7 +5,9 @@ using CookBook.Infrastructure.Dto;
 using CookBook.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Features.Variance;
 
 namespace CookBook.Infrastructure.Repositories.Extensions
 {
@@ -88,7 +90,21 @@ namespace CookBook.Infrastructure.Repositories.Extensions
             var recipeIngredient = RecipeIngredient.Create(ingredient, recipeIngredientDto.Measure,
                 recipeIngredientDto.Amount);
             recipe.AddIngredient(recipeIngredient);
-            await recipeRepository.UpdateAsync(recipe); 
+            await recipeRepository.UpdateAsync(recipe);
+        }
+
+        public static async Task RemoveIngredientOrThrowAsync(this IRecipeRepository recipeRepository,
+            RecipeIngredientRemoveDto recipeIngredientDto)
+        {
+            var recipe = await recipeRepository.GetOrThrowAsync(recipeIngredientDto.RecipeId);
+            var recipeIngredient = recipe.GetIngredient(recipeIngredientDto.IngredientId);
+            if (recipeIngredient is null)
+            {
+                throw new InfrastructureException(ErrorCode.NotFound,
+                    ErrorMessage.IngredientNotFound(recipeIngredientDto.IngredientId.ToString()));
+            }
+            recipe.RemoveIngredient(recipeIngredient);
+            await recipeRepository.UpdateAsync(recipe);
         }
     }
 }
