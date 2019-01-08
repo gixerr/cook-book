@@ -14,5 +14,6 @@ namespace CookBook.Infrastructure.Services.Interfaces
         Task AddAsync(RecipeCreateDto recipeDto);
         Task UpdateAsync(RecipeUpdateDto recipeUpdateDto);
         Task RemoveAsync(Guid id);
+        Task AddIngredientAsync(RecipeIngredientAddDto recipeIngredientDto);
     }
 }

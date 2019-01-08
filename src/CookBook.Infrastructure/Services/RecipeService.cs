@@ -14,13 +14,15 @@ namespace CookBook.Infrastructure.Services
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IRecipeCategoryRepository _recipeCategoryRepository;
+        private readonly IIngredientRepository _ingredientRepository;
         private readonly IMapper _mapper;
 
         public RecipeService(IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository,
-            IMapper mapper)
+            IIngredientRepository ingredientRepository, IMapper mapper)
         {
             _recipeRepository = recipeRepository;
             _recipeCategoryRepository = recipeCategoryRepository;
+            _ingredientRepository = ingredientRepository;
             _mapper = mapper;
         }
 
@@ -61,6 +63,16 @@ namespace CookBook.Infrastructure.Services
 
         public async Task RemoveAsync(Guid id)
             => await _recipeRepository.RemoveOrThrowAsync(id);
+
+        public async Task AddIngredientAsync(RecipeIngredientAddDto recipeIngredientDto)
+        {
+            var recipe = await _recipeRepository.GetOrThrowAsync(recipeIngredientDto.RecipeId);
+            var ingredient = await _ingredientRepository.GetOrThrowAsync(recipeIngredientDto.IngredientId);
+            var recipeIngredient = RecipeIngredient.Create(ingredient, recipeIngredientDto.Measure,
+                recipeIngredientDto.Amount);
+            recipe.AddIngredient(recipeIngredient);
+            await _recipeRepository.UpdateAsync(recipe); 
+        }
 
         private RecipeDto Dto(Recipe model)
             => _mapper.Map<RecipeDto>(model);
