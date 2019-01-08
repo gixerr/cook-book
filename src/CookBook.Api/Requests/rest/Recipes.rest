@@ -61,3 +61,12 @@ Content-Type: application/json
   "measure" : "",
   "amount" : 
 }
+
+### Rmove recipe ingredient
+PATCH {{apiUrl}}/api/recipes/ingredient/remove
+Content-Type: application/json
+
+{
+  "recipeId" : "",
+  "ingredientId" : ""
+}
