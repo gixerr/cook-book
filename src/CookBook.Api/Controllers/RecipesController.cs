@@ -71,21 +71,5 @@ namespace CookBook.Api.Controllers
 
             return NoContent();
         }
-
-        [HttpPatch]
-        public async Task<ActionResult> AddIngredient(RecipeIngredientAddDto command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-
-            return NoContent();
-        }
-
-        [HttpPatch("ingredient/remove")]
-        public async Task<ActionResult> RemoveIngredient(RecipeIngredientRemoveDto command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-
-            return NoContent();
-        }
     }
 }
