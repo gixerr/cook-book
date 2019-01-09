@@ -64,12 +64,6 @@ namespace CookBook.Infrastructure.Services
         public async Task RemoveAsync(Guid id)
             => await _recipeRepository.RemoveOrThrowAsync(id);
 
-        public async Task AddIngredientAsync(RecipeIngredientAddDto recipeIngredientDto)
-            => await _recipeRepository.AddIngredientOrThrowAsync(_ingredientRepository, recipeIngredientDto);
-
-        public async Task RemoveIngredientAsync(RecipeIngredientRemoveDto recipeIngredientDto) 
-            => await _recipeRepository.RemoveIngredientOrThrowAsync(recipeIngredientDto);
-
         private RecipeDto Dto(Recipe model)
             => _mapper.Map<RecipeDto>(model);
 
