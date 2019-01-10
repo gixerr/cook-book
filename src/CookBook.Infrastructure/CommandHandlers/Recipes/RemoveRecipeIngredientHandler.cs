@@ -7,9 +7,9 @@ namespace CookBook.Infrastructure.CommandHandlers.Recipes
 {
     public class RemoveRecipeIngredientHandler : ICommandHandler<RecipeIngredientRemoveDto>
     {
-        private readonly IRecipeService _service;
+        private readonly IRecipeIngredientService _service;
 
-        public RemoveRecipeIngredientHandler(IRecipeService service)
+        public RemoveRecipeIngredientHandler(IRecipeIngredientService service)
         {
             _service = service;
         }

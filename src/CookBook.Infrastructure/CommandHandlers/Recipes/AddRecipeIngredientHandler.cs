@@ -7,9 +7,9 @@ namespace CookBook.Infrastructure.CommandHandlers.Recipes
 {
     public class AddRecipeIngredientHandler : ICommandHandler<RecipeIngredientAddDto>
     {
-        private readonly IRecipeService _service;
+        private readonly IRecipeIngredientService _service;
 
-        public AddRecipeIngredientHandler(IRecipeService service)
+        public AddRecipeIngredientHandler(IRecipeIngredientService service)
         {
             _service = service;
         }
