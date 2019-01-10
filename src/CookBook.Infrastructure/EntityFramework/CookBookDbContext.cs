@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using CookBook.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,5 +15,8 @@ namespace CookBook.Infrastructure.EntityFramework
         public CookBookDbContext(DbContextOptions<CookBookDbContext> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+            => modelBuilder.Entity<RecipeIngredient>().HasKey(x => new {x.RecipeId, x.IngredientId});
     }
 }
