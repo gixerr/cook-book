@@ -12,6 +12,7 @@ namespace CookBook.Infrastructure.IoC.Modules
             builder.RegisterType<RecipeCategoryService>().As<IRecipeCategoryService>().InstancePerLifetimeScope();
             builder.RegisterType<IngredientService>().As<IIngredientService>().InstancePerLifetimeScope();
             builder.RegisterType<IngredientCategoryService>().As<IIngredientCategoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<RecipeIngredientService>().As<IRecipeIngredientService>().InstancePerLifetimeScope();
         }
     }
 }
