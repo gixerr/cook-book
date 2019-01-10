@@ -1,0 +1,25 @@
+# =========================== Rcipes Controller ============================= #
+
+@apiUrl = http://localhost:5000
+
+# =============================================================================== #
+
+### Add recipe ingredient
+POST {{apiUrl}}/api/recipeingredients
+Content-Type: application/json
+
+{
+  "recipeId" : "c17fb64f-f9b2-4dbe-bfd3-c44a772c7c9c",
+  "ingredientId" : "a5b4c980-978f-4c1b-bbef-a871f0aead8e",
+  "measure" : "kg",
+  "amount" : 1
+}
+
+### Rmove recipe ingredient
+DELETE {{apiUrl}}/api/recipeingredients
+Content-Type: application/json
+
+{
+  "recipeId" : "c17fb64f-f9b2-4dbe-bfd3-c44a772c7c9c",
+  "ingredientId" : "a5b4c980-978f-4c1b-bbef-a871f0aead8e"
+}

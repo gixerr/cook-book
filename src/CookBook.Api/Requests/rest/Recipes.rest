@@ -1,7 +1,7 @@
 # =========================== Rcipes Controller ============================= #
 
 @apiUrl = http://localhost:5000
-@getRecipeName = *****                            
+@getRecipeName = *****                       
 @getRecipeId = *****
 @getCategoryName = *****
 @deleteRecipeId = *****
@@ -50,23 +50,3 @@ Content-Type: application/json
 ### Delete ingredient
 DELETE {{apiUrl}}/api/recipes/{{deleteRecipeId}}
 Content-Type: application/json
-
-### Add recipe ingredient
-PATCH {{apiUrl}}/api/recipes
-Content-Type: application/json
-
-{
-  "recipeId" : "",
-  "ingredientId" : "",
-  "measure" : "",
-  "amount" : 
-}
-
-### Rmove recipe ingredient
-PATCH {{apiUrl}}/api/recipes/ingredient/remove
-Content-Type: application/json
-
-{
-  "recipeId" : "",
-  "ingredientId" : ""
-}
