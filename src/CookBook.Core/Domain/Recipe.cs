@@ -56,7 +56,7 @@ namespace CookBook.Core.Domain
             => Preparation = Validate(preparation, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipePreparation);
 
         public RecipeIngredient GetIngredient(Guid id)
-            => _ingredients.SingleOrDefault(x => x.Id.Equals(id));
+            => _ingredients.SingleOrDefault(x => x.IngredientId.Equals(id));
 
         public void AddIngredient(RecipeIngredient ingredient)
             => _ingredients.Add(ingredient);

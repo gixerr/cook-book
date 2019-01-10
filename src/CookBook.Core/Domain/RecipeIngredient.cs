@@ -3,8 +3,10 @@ using CookBook.Core.Exceptions;
 
 namespace CookBook.Core.Domain
 {
-    public class RecipeIngredient : Entity
+    public class RecipeIngredient
     {
+        public Guid RecipeId { get; protected set; }
+        public Guid IngredientId { get; protected set; }
         public string Name { get; protected set; }
         public IngredientCategory Category { get; protected set; }
         public string Measure { get; protected set; }
@@ -14,35 +16,36 @@ namespace CookBook.Core.Domain
         {
         }
 
-        private RecipeIngredient(Guid id, string name, IngredientCategory category, string measure, float amount)
+        private RecipeIngredient(Guid recipeId, Guid ingredientId, string name, IngredientCategory category,
+            string measure, float amount)
         {
-            Id = id;
+            RecipeId = recipeId;
+            IngredientId = ingredientId;
             SetName(name);
             SetCategory(category);
             SetMeasure(measure);
             SetAmount(amount);
         }
 
-        public static RecipeIngredient Create(Ingredient ingredient, string measure, float amount)
-            => new RecipeIngredient(ingredient.Id, ingredient.Name, ingredient.Category, measure, amount);
-        
-        public void SetName(string name)
-            => Name = Validate(name, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientName);
-        
-        public void SetCategory(IngredientCategory category)
-            => Category = Validate(category, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientCategory);
+        public static RecipeIngredient Create(Guid recipeId, Ingredient ingredient, string measure, float amount)
+            => new RecipeIngredient(recipeId, ingredient.Id, ingredient.Name, ingredient.Category, measure, amount);
 
-        public void SetMeasure(string measure)
-            => Measure = Validate(measure, ErrorCode.EmptyModelProperty, ErrorMessage.EmptyRecipeIngredientMeasure);
+        private void SetName(string name)
+            => Name = name ?? throw new CoreException(ErrorCode.EmptyModelProperty,
+                          ErrorMessage.EmptyRecipeIngredientName);
 
-        public void SetAmount(float amount)
-        {
-            if (amount <= 0)
-            {
-                throw new CoreException(ErrorCode.EmptyModelProperty, ErrorMessage.InvalidRecipeIngredientAmount);
-            }
-            Amount = amount;
-        }
+        private void SetCategory(IngredientCategory category)
+            => Category = category ?? throw new CoreException(ErrorCode.EmptyModelProperty,
+                              ErrorMessage.EmptyRecipeIngredientCategory);
+
+        private void SetMeasure(string measure)
+            => Measure = measure ?? throw new CoreException(ErrorCode.EmptyModelProperty,
+                             ErrorMessage.EmptyRecipeIngredientMeasure);
+
+        private void SetAmount(float amount) => Amount = amount <= 0
+                                                            ? throw new CoreException(ErrorCode.EmptyModelProperty,
+                                                                  ErrorMessage.InvalidRecipeIngredientAmount)
+                                                            : amount;
 
         public void IncreaseAmount(float amount)
             => Amount += amount;
