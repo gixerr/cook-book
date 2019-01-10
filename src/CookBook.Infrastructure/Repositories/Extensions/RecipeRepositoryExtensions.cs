@@ -87,7 +87,7 @@ namespace CookBook.Infrastructure.Repositories.Extensions
         {
             var recipe = await recipeRepository.GetOrThrowAsync(recipeIngredientDto.RecipeId);
             var ingredient = await ingredientRepository.GetOrThrowAsync(recipeIngredientDto.IngredientId);
-            var recipeIngredient = RecipeIngredient.Create(ingredient, recipeIngredientDto.Measure,
+            var recipeIngredient = RecipeIngredient.Create(recipe.Id, ingredient, recipeIngredientDto.Measure,
                 recipeIngredientDto.Amount);
             recipe.AddIngredient(recipeIngredient);
             await recipeRepository.UpdateAsync(recipe);
