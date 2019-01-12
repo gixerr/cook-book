@@ -14,15 +14,13 @@ namespace CookBook.Infrastructure.Services
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IRecipeCategoryRepository _recipeCategoryRepository;
-        private readonly IIngredientRepository _ingredientRepository;
         private readonly IMapper _mapper;
 
         public RecipeService(IRecipeRepository recipeRepository, IRecipeCategoryRepository recipeCategoryRepository,
-            IIngredientRepository ingredientRepository, IMapper mapper)
+            IMapper mapper)
         {
             _recipeRepository = recipeRepository;
             _recipeCategoryRepository = recipeCategoryRepository;
-            _ingredientRepository = ingredientRepository;
             _mapper = mapper;
         }
 
