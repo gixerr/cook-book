@@ -3,7 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CookBook.Api.Extensions;
 using CookBook.Api.Middleware;
-using CookBook.Infrastructure.DataInitializers;
+using CookBook.Api.Settings.Interfaces;
 using CookBook.Infrastructure.DataInitializers.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,16 +17,18 @@ namespace CookBook.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            DataSettings = configuration.GetDataSettings();
         }
 
         public IConfiguration Configuration { get; }
         public IContainer Container { get; private set; }
+        public IDataSettings DataSettings { get;}
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddFrameworkServices(Configuration);
             var builder = new ContainerBuilder();
-            builder.RegisterRepositoryModule(Configuration)
+            builder.RegisterRepositoryModule(DataSettings.ProviderType)
                    .RegisterServicesModule()
                    .RegisterDataInitializers()
                    .RegisterCommandModule()
@@ -54,8 +56,11 @@ namespace CookBook.Api
 
             app.UseStaticFiles();
             app.UseMvc();
-            var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
-            dataInitializer.Initialize();
+            if (DataSettings.Initialize)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.Initialize();
+            }
             applicationLifetime.ApplicationStopped.Register(() => Container.Dispose());
         }
     }

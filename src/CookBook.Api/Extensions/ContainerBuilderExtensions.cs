@@ -16,11 +16,9 @@ namespace CookBook.Api.Extensions
     public static class ContainerBuilderExtensions
     {
         public static ContainerBuilder RegisterRepositoryModule(this ContainerBuilder builder,
-            IConfiguration configuration)
+            string providerType)
         {
-            var persistence = new PersistenceSettings();
-            configuration.GetSection("persistence").Bind(persistence);
-            DataProviders.SetProvider(builder, persistence.ProviderType);
+            DataProviders.SetProvider(builder, providerType);
 
             return builder;
         }
